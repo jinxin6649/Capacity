@@ -27,7 +27,8 @@ public class BayesController {
         bayesEntity.setModelid("model01");
         bayesEntity.setResultTableName("result1");
        Object  result =  HttpUtils.doPost(ConstantUtils.BAYES_URL, JSON.toJSONString(bayesEntity));
-       int i = 1;
+       int i = 22222;
+
        return null;
     }
 }
