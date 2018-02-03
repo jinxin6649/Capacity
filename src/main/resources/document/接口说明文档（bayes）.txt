@@ -1,0 +1,59 @@
+1.接口输入：
+{
+  "action": "string",               #包含：train/test/predictions分别表示训练，评估，预测
+  "taskId": "string",               #任务Id
+  "resultPathFile": "string",       #结果保存路径（HDFS版本特有）
+  "modelPathFile": "string",        #模型文件路径（HDFS版本特有）
+  "soucePathFile": "string",        #源文件路径（HDFS版本特有）
+  "destPath": "string",             #输出数据保存路径（HDFS版本特有）
+  "label": "string",                #标签名
+  "selectCols": "string",           #选择的列集合（是一个数组）
+  "allCols": "string",              #所有字段名称集合
+  "split": "string",                #原始数据集分隔符
+  "algorithmParameters": "string",  #算法内部参数(json)
+  "sourceid": "string",             #数据源id（数据库版本特有）
+  "dbtype": "string",               #数据源类型（数据库版本特有）
+  "orgtableName": "string",         #数据源表名（数据库版本特有）
+  "modelid": "string",              #模型编号（数据库版本特有）
+  "resultTableName": "string"       #结果存储表名（数据库版本特有）
+}
+
+
+必传参数（不传时服务拒绝请求）：
+  - action
+  - taskId
+
+mysql版本的请求参数例子：
+{
+  "action": "train",
+  "taskId": "train1",
+  "label": "label",
+  "selectCols": "ID_CHK,I_E_FLAG,I_E_PORT,DESTINATION_PORT,VOYAGE_NO,TRAF_MODE",
+  "sourceid": "1",
+  "dbtype": "mysql",
+  "orgtableName": "x_train",
+  "modelid": "model01",
+  "resultTableName": "result1"
+}
+
+
+2.接口输出：
+(1)训练（输出包含json文件和训练的模型）
+{"status": "0", "applicationID": "123", "modelid":"01", "msg": null}
+
+(2)评估（输出包含json文件和数据文件）
+{"data": {"evaluation": {"labels": [0.0, 1.0], "matrixs": [[833, 0], [0, 80]], "precision": [1.0, 1.0], "recall": [1.0, 1.0], "accuracy": 1.0}, "headers": ["ID_CHK", "I_E_FLAG", "I_E_PORT", "DESTINATION_PORT", "VOYAGE_NO", "TRAF_MODE", "label", "predict", "prob"], "scoreColName": "prob", "predictionColName": "predict", "resultTableName": "result1"}, "applicationID": "123", "status": "0"}
+
+(3)预测（输出包含json文件和数据文件）
+{"data": {"headers": ["ID_CHK", "I_E_FLAG", "I_E_PORT", "DESTINATION_PORT", "VOYAGE_NO", "TRAF_MODE", "predict", "prob"], "scoreColName": "prob", "predictionColName": "predict", "types": [0.0, 1.0], "resultTableName": "result2"}, "applicationID": "123", "status": "0"}
+
+说明：
+status 为0表示状态成功，1表示状态失败
+msg 表示报错信息
+labels 表示验证数据集中标签类型
+matrixs 混淆矩阵
+precision 精度
+recall 召回率
+accuracy 准确率
+headers 输出数据表头
+resultTableName 输出数据所在表
