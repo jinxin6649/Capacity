@@ -1,4 +1,4 @@
-package com.capacity.source.Entity;
+package com.capacity.source.entity;
 
 import lombok.Data;
 

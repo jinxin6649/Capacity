@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-@MapperScan("com.capacity.source.*.mapper")
+@MapperScan("com.capacity.*.mapper")
 public class CapacityApplication {
 
 	public static void main(String[] args) {
